@@ -1,0 +1,31 @@
+{
+  "name": "proceso-compra",
+  "version": "1.0.0",
+  "description": "Microservicio para el proceso de compra en un E-Commerce utilizando Kafka y MySQL",
+  "main": "index.js",
+  "scripts": {
+    "ejecutar": "node src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "kafkajs": "^2.2.4",
+    "mysql2": "^3.14.0",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.20"
+  },
+  "keywords": [
+    "microservicio",
+    "Kafka",
+    "MySQL",
+    "E-Commerce",
+    "event-driven"
+  ],
+  "author": "Tu Nombre",
+  "license": "MIT"
+}

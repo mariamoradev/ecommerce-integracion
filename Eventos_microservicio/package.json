@@ -1,0 +1,19 @@
+{
+    "name": "event-storage-service",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "dotenv": "^16.0.0",
+        "kafkajs": "^2.2.4",
+        "mongodb": "^6.15.0",
+        "mongoose": "^6.0.0",
+        "uuid": "^9.0.0"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": ""
+}

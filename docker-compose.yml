@@ -1,0 +1,155 @@
+services:
+  # --- Zookeeper & Kafka ---
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - ecommerce-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9093:9092"  # Cambiado para evitar conflicto con otros procesos
+    networks:
+      - ecommerce-network
+
+  # --- Base de datos MySQL ---
+  mysql:
+    image: mysql:8
+    container_name: ecommerce-integracion-mysql-1
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: tu_clave
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+
+       # --- MongoDB ---  # Agregado aquí
+  mongodb:
+    image: mongo:5.0
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_DB: event_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - ecommerce-network
+
+
+  # --- Infraestructura Event-Driven ---
+  event-driver:
+    build:
+      context: "./servicios/Eventos_microservicio"
+    depends_on:
+      - kafka
+      - mongodb
+    environment:
+      KAFKA_BROKER: kafka:9092
+      MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017/${MONGO_DB}"
+    networks:
+      - ecommerce-network
+
+  # --- Microservicio de Usuarios ---
+  users:
+    build:
+      context: "./servicios/microservicio-usuarios-eventos"
+    depends_on:
+      - mysql
+      - mongodb
+      - kafka
+      - event-driver
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE_USERS}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017/${MONGO_DB}"
+      KAFKA_BROKER: kafka:9092
+      KAFKA_CLIENT_ID: ${KAFKA_CLIENT_ID_USERS}
+    ports:
+      - "3000:3000"
+    networks:
+      - ecommerce-network
+
+  # --- Microservicio de Catálogo ---
+  catalog:
+    build:
+      context: "./servicios/ecommerce-catalog"
+    depends_on:
+      - mysql
+      - kafka
+      - event-driver
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE_CATALOG}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      KAFKA_BROKER: kafka:9092
+      KAFKA_CLIENT_ID: ${KAFKA_CLIENT_ID_CATALOG}
+    ports:
+      - "3001:3000"
+    networks:
+      - ecommerce-network
+
+  # --- Microservicio de Carrito ---
+  cart:
+    build:
+      context: "./servicios/Carrito-api"
+    depends_on:
+      - mysql
+      - kafka
+      - event-driver
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE_CART}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      KAFKA_BROKER: kafka:9092
+      KAFKA_CLIENT_ID: ${KAFKA_CLIENT_ID_CART}
+    ports:
+      - "3002:3000"
+    networks:
+      - ecommerce-network
+
+  # --- Microservicio de Compras ---
+  orders:
+    build:
+      context: "./servicios/compras_microservicio"
+    depends_on:
+      - mysql
+      - kafka
+      - event-driver
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE_ORDERS}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      KAFKA_BROKER: kafka:9092
+      KAFKA_CLIENT_ID: ${KAFKA_CLIENT_ID_ORDERS}
+    ports:
+      - "3003:3000"
+    networks:
+      - ecommerce-network
+
+volumes:
+  mysql_data:
+  mongo_data:
+
+networks:
+  ecommerce-network:
