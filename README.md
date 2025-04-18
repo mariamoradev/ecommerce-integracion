@@ -4,11 +4,11 @@
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/mariamoradev"><img src="https://avatars.githubusercontent.com/u/142707653?v=4" width="100px;" alt="Maria Mora"/><br /><sub><b>Maria José Mora</b></sub><br/>Arquitectura Kafka</a></td>
-    <td align="center"><a href="https://github.com/GabrielCarrilloF"><img src="https://avatars.githubusercontent.com/u/108044369?v=4" width="100px;" alt="Gabriel Carrillo"/><br /><sub><b>Gabriel Carrillo</b></sub><br/>Microservicios</a></td>
-    <td align="center"><a href="https://github.com/jesusbrave"><img src="https://avatars.githubusercontent.com/u/99109000?v=4" width="100px;" alt="Jesús Valinete"/><br /><sub><b>Jesús Valinete</b></sub><br/>Event Sourcing</a></td>
-    <td align="center"><a href="https://github.com/OscarJa2345"><img src="https://avatars.githubusercontent.com/u/105009357?v=4" width="100px;" alt="Oscar Jácome"/><br /><sub><b>Oscar Jácome</b></sub><br/>MongoDB</a></td>
-    <td align="center"><a href="https://github.com/JuniorRodriguez10"><img src="https://avatars.githubusercontent.com/u/131241864?v=4" width="100px;" alt="Wilfrido Rodríguez"/><br /><sub><b>Wilfrido Rodríguez</b></sub><br/>Flujos de Compra</a></td>
+    <td align="center"><a href="https://github.com/mariamoradev"><img src="https://avatars.githubusercontent.com/u/170107389?v=4" width="100px;" alt="Maria Mora"/><br /><sub><b>Maria José Mora</b></sub><br/></a></td>
+    <td align="center"><a href="https://github.com/GabrielCarrilloF"><img src="https://avatars.githubusercontent.com/u/168355514?v=4" width="100px;" alt="Gabriel Carrillo"/><br /><sub><b>Gabriel Carrillo</b></sub><br/></a></td>
+    <td align="center"><a href="https://github.com/jesusbrave"><img src="https://avatars.githubusercontent.com/u/168668280?v=4" width="100px;" alt="Jesús Valinete"/><br /><sub><b>Jesús Valiente</b></sub><br/></a></td>
+    <td align="center"><a href="https://github.com/OscarJa2345"><img src="https://avatars.githubusercontent.com/u/105009357?v=4" width="100px;" alt="Oscar Jácome"/><br /><sub><b>Oscar Jácome</b></sub><br/></a></td>
+    <td align="center"><a href="https://github.com/JuniorRodriguez10"><img src="https://avatars.githubusercontent.com/u/147214186?v=4" width="100px;" alt="Wilfrido Rodríguez"/><br /><sub><b>Wilfrido Rodríguez</b></sub><br/></a></td>
   </tr>
 </table>
 
